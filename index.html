@@ -99,7 +99,7 @@ p { margin: 0 0 14px; }
 
 /* Projects */
 .project { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; margin-top: 24px; overflow: hidden; }
-.project-head { padding: 22px 24px 0; display: grid; gap: 8px; }
+.project-head { padding: 22px 24px 0; display: flex; flex-direction: column; gap: 8px; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag { font: 500 11.5px var(--font-mono); padding: 3px 8px; border-radius: 3px; background: var(--bg); color: var(--muted); border: 1px solid var(--rule); }
 .project-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 8px 24px 24px; }
@@ -193,7 +193,7 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
     <article class="project" id="vix">
       <div class="project-head">
         <div class="tags"><span class="tag">VX futures</span><span class="tag">ES futures</span><span class="tag">Python</span><span class="tag">LEAN</span></div>
-        <h3>VIX futures curve: trading the basis with an ES hedge</h3>
+        <h2>VIX futures curve: trading ES with a VX hedge</h2>
       </div>
       <div class="project-body">
         <div>
@@ -203,34 +203,36 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
           <p>In normal, calm markets the VIX futures curve is in contango. During increased  stress, the VIX curve switches to backwardation. Between these two extreams, the curve can be disloacted where one or more contract is out of the normal contango relationship of having a higher quote than the prevouse month. The paper counts these disloations and uses them as the bases for weighting a position in ES contracts and two VX contracts.</p>
           <h4>What I built</h4>
           <ul>
-            <li>Impelmented an interactive viewer to explore the proposed relationship between ES and VX and possible range of two values excluded from the paper: VIX threashold (<var>v</var><sub>c</sub>), and critial VIX slope (<var>m</var><sub>c</sub>)</li>
-            <iframe src="public/vix-dashboard.html" style="width:100%;height:1500px;border:0" title="ES vs the VIX Curve"></iframe>
-            <li>Wrote a standalone Python backtest first to verify the signal and hedge math before committing to a framework.</li>
-            <li>Built a Python dashboard to inspect the term structure, daily roll and positions over time.</li>
+            <li>Impelmented an interactive dashboard to explore the proposed relationship between ES and VX and possible range of two values excluded from the paper: VIX threashold (<var>v</var><sub>c</sub>), and critial VIX slope (<var>m</var><sub>c</sub>)</li>
+            <li>Wrote a standalone Python backtest first to verify the signal and hedge math with pulic data before committing to a framework. Where public data was missing, the positioning from the last valid signal was maintained.</li>
             <li>Ported the strategy to QuantConnect with continuous-contract handling and rolls.</li>
           </ul>
-          <h4>Risk I watch</h4>
-          <p>Short-volatility carry looks smooth until it doesn't. The backtest is examined through February 2018 and March 2020, when the curve flipped into backwardation in days.</p>
         </div>
         <div>
+          <h3>Dashboard</h3>
+          <iframe src="public/vix-dashboard.html" style="width:100%;height:1400px;border:0" title="ES vs the VIX Curve"></iframe>
+        </div>
+        <div>
+          <h3>Backtest</h3>
           <img src="public/equity_and_drawdowns.png" alt="Squid Programs returns, and drawdowns" style="width:925px;height:756px;">
-          <h4>Backtest results</h4>
+          <h4>Paper vs Backtest Results with <var>v</var><sub>c</sub>=18 and <var>m</var><sub>c</sub>=-0.12</h4>
           <table class="stats">
             <tbody>
-            <tr><th>Variable</th><th>Paper Giant Squid</th><th class="pending">Backtest Giant Squid</th></tr>
-            <tr><td>Ann. Returns</td><td>21.01</td><td class="pending">16.56</td></tr>
-            <tr><td>Ann. Volatility</td><td>15.34</td><td class="pending">13.95</td></tr>
-            <tr><td>Max DD</td><td>24.14</td><td class="pending">18.96</td></tr>
-            <tr><td>Sharpe ratio</td><td>1.27</td><td class="pending">1.06</td></tr>
-            <tr><td>Sortino Ratio</td><td>1.69</td><td class="pending">1.54</td></tr>
-            <tr><td>Turnover</td><td>8.23</td><td class="pending">13.09</td></tr>
+            <tr><th>Variable</th>        <th>Paper Giant Squid</th><th class="pending">Backtest Giant Squid</th></tr>
+            <tr><td>Ann. Returns</td>    <td>21.01</td><td class="pending">18.73</td></tr>
+            <tr><td>Ann. Volatility</td> <td>15.34</td><td class="pending">15.13</td></tr>
+            <tr><td>Max DD</td>          <td>24.14</td><td class="pending">19.50</td></tr>
+            <tr><td>Sharpe ratio</td>    <td>1.27</td> <td class="pending">1.11</td></tr>
+            <tr><td>Sortino Ratio</td>   <td>1.69</td> <td class="pending">1.66</td></tr>
+            <tr><td>Turnover</td>        <td>8.23</td> <td class="pending">15.84</td></tr>
           </tbody></table>
         </div>
       </div>
-      <div class="project-foot">
-        <a href="https://github.com/csantrim/py-qc-squid-programs" target="_blank" rel="noopener">Code on GitHub</a>
+      <div>
+        <h3>QuantConnect</h3>
       </div>
       <div class="project-foot">
+        <a href="https://github.com/csantrim/py-qc-squid-programs" target="_blank" rel="noopener">Code on GitHub</a>
         <span style="color:var(--muted)">Python dashboard · standalone backtest · LEAN algorithm</span>
       </div>
     </article>
@@ -243,16 +245,17 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
       </div>
       <div class="project-body">
         <div>
+          <h4>Source</h4>
+          <p> Global momentum: The optimal trading approach (Alain Wouassom, Yaz Gülnur Muradoğlu, and Nicholas Tsitsianis, September 2022)</p>
+          <p> with an additional filter from Frog in the Pan: Continuous Information and Momentum (Zhi Da , Umit G. Gurun , Mitch Warachka, February 2014)</p>
           <h4>Hypothesis</h4>
-          <p>Country equity markets that have outperformed over recent months tend to keep outperforming over the next few, because information and capital flows move across borders slowly. Ranking single-country ETFs on trailing return and holding the leaders should beat an equal-weight basket.</p>
+          <p>Country or regional equity markets that have outperformed over recent months tend to keep outperforming over the next few, because information and capital flows move across borders slowly. Ranking single-country ETFs on trailing return and holding the leaders should beat an equal-weight basket.</p>
           <h4>What I built</h4>
           <ul>
             <li>A universe of single-country ETFs, ranked on trailing return at each rebalance.</li>
             <li>Holds the top-ranked markets and rotates on a fixed schedule, with trading costs modeled in LEAN.</li>
             <li>Compared against an equal-weight basket of the same ETFs so the result measures selection, not just international beta.</li>
           </ul>
-          <h4>Risk I watch</h4>
-          <p>Momentum crashes in sharp reversals, and country ETFs carry currency exposure. Turnover and the benchmark comparison matter more here than headline return.</p>
         </div>
         <div>
           <figure>
@@ -291,7 +294,7 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
         </div>
       </div>
       <div class="project-foot">
-        <a href="https://github.com/csantrim" target="_blank" rel="noopener">Code on GitHub</a>
+        <a href="https://github.com/csantrim/py-qc-global-momentum" target="_blank" rel="noopener">Code on GitHub</a>
         <span style="color:var(--muted)">LEAN algorithm · universe definition · rebalance logic</span>
       </div>
     </article>
