@@ -216,8 +216,7 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
           <h3>Backtest</h3>
           <img src="public/equity_and_drawdowns.png" alt="Squid Programs returns, and drawdowns" style="width:925px;height:756px;">
           <h4>Paper vs Backtest Results with <var>v</var><sub>c</sub>=18 and <var>m</var><sub>c</sub>=-0.12</h4>
-          <table class="stats">
-            <tbody>
+          <table class="stats"><tbody>
             <tr><th>Variable</th>        <th>Paper Giant Squid</th><th class="pending">Backtest Giant Squid</th></tr>
             <tr><td>Ann. Returns</td>    <td>21.01</td><td class="pending">18.73</td></tr>
             <tr><td>Ann. Volatility</td> <td>15.34</td><td class="pending">15.13</td></tr>
@@ -227,9 +226,21 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
             <tr><td>Turnover</td>        <td>8.23</td> <td class="pending">15.84</td></tr>
           </tbody></table>
         </div>
-      </div>
-      <div>
-        <h3>QuantConnect</h3>
+        <div>
+          <h3>QuantConnect (QC)</h3>
+            <ul>QuantConnet's backtest doesn't match the papers due to data aviability. QC's full VIX term structure data starts on Jan 3rd, 2011. The Backtest was modified to match the same range as QuantConnect for comparison.</ul>
+            <img src="public/qc_equity.png" alt="QuantConnect Squid Program returns, and drawdowns" style="width:925px;height:756px;">
+            <table class="stats"><tbody>
+                <tr><th>Variable</th>        <th>QC Giant Squid</th><th class="pending">Backtest Giant Squid</th></tr>
+                <tr><td>Ann. Returns</td>    <td>8.851</td><td class="pending">14.43</td></tr>
+                <tr><td>Ann. Volatility</td> <td>11.60</td><td class="pending">13.69</td></tr>
+                <tr><td>Max DD</td>          <td>24.50</td><td class="pending">18.96</td></tr>
+                <tr><td>Sharpe ratio</td>    <td>0.41</td> <td class="pending">0.94</td></tr>
+                <tr><td>Sortino Ratio</td>   <td>0.46</td> <td class="pending">1.37</td></tr>
+                <tr><td>Turnover</td>        <td>12.38</td> <td class="pending">10.60</td></tr>
+              </tbody></table>
+
+        </div>
       </div>
       <div class="project-foot">
         <a href="https://github.com/csantrim/py-qc-squid-programs" target="_blank" rel="noopener">Code on GitHub</a>
