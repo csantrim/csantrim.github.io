@@ -214,7 +214,7 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
         </div>
         <div>
           <h3>Backtest</h3>
-          <img src="public/equity_and_drawdowns.png" alt="Squid Programs returns, and drawdowns" style="width:925px;height:756px;">
+          <img src="public/squid_equity_and_drawdowns.png" alt="Squid Programs returns, and drawdowns" style="width:925px;height:756px;">
           <h4>Paper vs Backtest Results with <var>v</var><sub>c</sub>=18 and <var>m</var><sub>c</sub>=-0.12</h4>
           <table class="stats"><tbody>
             <tr><th>Variable</th>        <th>Paper Giant Squid</th><th class="pending">Backtest Giant Squid</th></tr>
@@ -229,7 +229,7 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
         <div>
           <h3>QuantConnect (QC)</h3>
             <ul>QuantConnet's backtest doesn't match the papers due to data aviability. QC's full VIX term structure data starts on Jan 3rd, 2011. The Backtest was modified to match the same range as QuantConnect for comparison.</ul>
-            <img src="public/qc_equity.png" alt="QuantConnect Squid Program returns, and drawdowns" style="width:925px;height:756px;">
+            <img src="public/qc_squid_equity.png" alt="QuantConnect Squid Program returns, and drawdowns" style="width:925px;height:756px;">
             <table class="stats"><tbody>
                 <tr><th>Variable</th>        <th>QC Giant Squid</th><th class="pending">Backtest Giant Squid</th></tr>
                 <tr><td>Ann. Returns</td>    <td>8.851</td><td class="pending">14.43</td></tr>
@@ -263,9 +263,9 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
           <p>Country or regional equity markets that have outperformed over recent months tend to keep outperforming over the next few, because information and capital flows move across borders slowly. Ranking single-country ETFs on trailing return and holding the leaders should beat an equal-weight basket.</p>
           <h4>What I built</h4>
           <ul>
-            <li>A universe of single-country ETFs, ranked on trailing return at each rebalance.</li>
+            <li>A universe of single-country ETFs, ranked on trailing return, and return smoothness at each rebalance.</li>
             <li>Holds the top-ranked markets and rotates on a fixed schedule, with trading costs modeled in LEAN.</li>
-            <li>Compared against an equal-weight basket of the same ETFs so the result measures selection, not just international beta.</li>
+            <li>Compared against an international developed markets momentum ETF.</li>
           </ul>
         </div>
         <div>
@@ -294,14 +294,17 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
             </svg>
             <figcaption>Selection logic, illustrative. Bars show relative trailing return, not real values.</figcaption>
           </figure>
-          <h4>Backtest results</h4>
-          <table class="stats">
-            <tbody><tr><td>Period</td><td class="pending">to add</td></tr>
-            <tr><td>CAGR vs. benchmark</td><td class="pending">to add</td></tr>
-            <tr><td>Sharpe ratio</td><td class="pending">to add</td></tr>
-            <tr><td>Max drawdown</td><td class="pending">to add</td></tr>
-            <tr><td>Annual turnover</td><td class="pending">to add</td></tr>
-          </tbody></table>
+          <h4>QuantConnect (QC)</h4>
+          <img src="public/qc_intl_mom_vs_IMTM.png" alt="QuantConnect algo vs IMTM equity curve" style="width:925px;height:756px;">
+          <table class="stats"><tbody>
+                <tr><th>Variable</th>        <th>IMTM</th><th class="pending">QuantConnect</th></tr>
+                <tr><td>Ann. Returns</td>    <td>-</td><td class="pending">-</td></tr>
+                <tr><td>Ann. Volatility</td> <td>-</td><td class="pending">-</td></tr>
+                <tr><td>Max DD</td>          <td>-</td><td class="pending">-</td></tr>
+                <tr><td>Sharpe ratio</td>    <td>-</td> <td class="pending">-</td></tr>
+                <tr><td>Sortino Ratio</td>   <td>-</td> <td class="pending">-</td></tr>
+                <tr><td>Turnover</td>        <td>-</td> <td class="pending">-</td></tr>
+              </tbody></table>
         </div>
       </div>
       <div class="project-foot">
