@@ -109,6 +109,10 @@ p { margin: 0 0 14px; }
 .project li { margin-bottom: 6px; }
 figure { margin: 18px 0 0; }
 figure svg { width: 100%; height: auto; display: block; }
+.fitp { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.fitp figure { margin: 0; }
+.fitp svg text { fill: var(--muted); }
+@media (max-width: 640px) { .fitp { grid-template-columns: minmax(0, 1fr); } }
 figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
 
 .stats { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 14px; }
@@ -200,7 +204,7 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
           <h4>Source</h4>
           <p>Squid Programs: Trading the VIX Curve (Jungle Rock Capital, April 2026) <a href="https://junglerockcapital.com/white-papers/the-squid-programs-trading-the-vix-curve-dynamic-volatility-using-the-vix-term-structure">link</a></p>
           <h4>Hypothesis</h4>
-          <p>In normal, calm markets the VIX futures curve is in contango. During increased  stress, the VIX curve switches to backwardation. Between these two extreams, the curve can be disloacted where one or more contract is out of the normal contango relationship of having a higher quote than the prevouse month. The paper counts these disloations and uses them as the bases for weighting a position in ES contracts and two VX contracts.</p>
+          <p>In normal, calm markets the VIX futures curve is in contango. During increased  stress, the VIX curve switches to backwardation. Between these two extreams, the curve can be disloacted where one or more contract is out of the normal contango relationship of having a higher quote than the prevouse month. The paper counts these disloations and uses them as the bases for weighting a position in an ES contracts and two VX contracts.</p>
           <h4>What I built</h4>
           <ul>
             <li>Impelmented an interactive dashboard to explore the proposed relationship between ES and VX and possible range of two values excluded from the paper: VIX threashold (<var>v</var><sub>c</sub>), and critial VIX slope (<var>m</var><sub>c</sub>)</li>
@@ -214,7 +218,7 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
         </div>
         <div>
           <h3>Backtest</h3>
-          <img src="public/squid_equity_and_drawdowns.png" alt="Squid Programs returns, and drawdowns" style="width:925px;height:756px;">
+          <img src="public/squid_equity_and_drawdowns.png" alt="Squid Programs: returns and drawdowns" style="width:925px;height:756px;">
           <h4>Paper vs Backtest Results with <var>v</var><sub>c</sub>=18 and <var>m</var><sub>c</sub>=-0.12</h4>
           <table class="stats"><tbody>
             <tr><th>Variable</th>        <th>Paper Giant Squid</th><th class="pending">Backtest Giant Squid</th></tr>
@@ -228,7 +232,7 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
         </div>
         <div>
           <h3>QuantConnect (QC)</h3>
-            <ul>QuantConnet's backtest doesn't match the papers due to data aviability. QC's full VIX term structure data starts on Jan 3rd, 2011. The Backtest was modified to match the same range as QuantConnect for comparison.</ul>
+            <ul>QuantConnet's backtest doesn't match the papers due to data aviability. QC's full VIX term structure data starts on Jan 3rd, 2011. The Backtest was modified to match the same range as QuantConnect for comparison. Timing the trade before cash market close was the biggest factor driving the different returns. Using stale futures quotes after market close drove the results to more closely match.</ul>
             <img src="public/qc_squid_equity.png" alt="QuantConnect Squid Program returns, and drawdowns" style="width:925px;height:756px;">
             <table class="stats"><tbody>
                 <tr><th>Variable</th>        <th>QC Giant Squid</th><th class="pending">Backtest Giant Squid</th></tr>
@@ -263,7 +267,7 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
           <p>Country or regional equity markets that have outperformed over recent months tend to keep outperforming over the next few, because information and capital flows move across borders slowly. Ranking single-country ETFs on trailing return and holding the leaders should beat an equal-weight basket.</p>
           <h4>What I built</h4>
           <ul>
-            <li>A universe of single-country ETFs, ranked on trailing return, and return smoothness at each rebalance.</li>
+            <li>A universe of single-country ETFs, ranked on trailing return, and then return smoothness at each monthly rebalance.</li>
             <li>Holds the top-ranked markets and rotates on a fixed schedule, with trading costs modeled in LEAN.</li>
             <li>Compared against an international developed markets momentum ETF.</li>
           </ul>
@@ -294,16 +298,44 @@ svg text { font-family: var(--font-mono); fill: var(--muted); }
             </svg>
             <figcaption>Selection logic, illustrative. Bars show relative trailing return, not real values.</figcaption>
           </figure>
+          <h4>Frog in the Pan: information discreteness</h4>
+          <div class="fitp">
+            <figure>
+              <svg viewBox="0 0 320 200" role="img" aria-labelledby="fitpC">
+                <title id="fitpC">Continuous information: a steady 30 percent climb that keeps drifting upward after formation</title>
+                <g stroke="var(--grid)"><line x1="36" y1="164" x2="310" y2="164"></line><line x1="36" y1="104" x2="310" y2="104"></line><line x1="36" y1="44" x2="310" y2="44"></line></g>
+                <rect x="168" y="16" width="142" height="148" fill="var(--grid)" opacity=".45"></rect>
+                <g font-size="10" fill="var(--muted)" text-anchor="end"><text x="30" y="167">0%</text><text x="30" y="107">20%</text><text x="30" y="47">40%</text></g>
+                <polyline fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" points="36,164 47,158 58,149 69,143 80,134 91,128 102,119 113,110 124,104 135,95 146,86 157,80 168,74 179,71 190,65 201,62 212,56 223,53 234,47 245,44 256,41 267,35 278,32 289,29 300,26"></polyline>
+                <line x1="168" y1="16" x2="168" y2="164" stroke="var(--signal)" stroke-dasharray="4 3"></line>
+                <g font-size="10" fill="var(--muted)"><text x="102" y="182" text-anchor="middle">formation</text><text x="239" y="182" text-anchor="middle">holding</text></g>
+                <text x="42" y="30" font-size="11" font-weight="600" style="fill:var(--ink)">Continuous: many small gains</text>
+              </svg>
+              <figcaption>Momentum persists: the drift continues after selection.</figcaption>
+            </figure>
+            <figure>
+              <svg viewBox="0 0 320 200" role="img" aria-labelledby="fitpD">
+                <title id="fitpD">Discrete information: a flat path with one or two large jumps reaching 30 percent, then partly reversing after formation</title>
+                <g stroke="var(--grid)"><line x1="36" y1="164" x2="310" y2="164"></line><line x1="36" y1="104" x2="310" y2="104"></line><line x1="36" y1="44" x2="310" y2="44"></line></g>
+                <rect x="168" y="16" width="142" height="148" fill="var(--grid)" opacity=".45"></rect>
+                <g font-size="10" fill="var(--muted)" text-anchor="end"><text x="30" y="167">0%</text><text x="30" y="107">20%</text><text x="30" y="47">40%</text></g>
+                <polyline fill="none" stroke="var(--signal)" stroke-width="2" stroke-linejoin="round" points="36,164 47,161 58,164 69,158 80,161 91,158 102,158 113,155 124,158 135,128 146,125 157,122 168,74 179,77 190,83 201,89 212,92 223,98 234,101 245,104 256,107 267,107 278,110 289,110 300,113"></polyline>
+                <line x1="168" y1="16" x2="168" y2="164" stroke="var(--signal)" stroke-dasharray="4 3"></line>
+                <g font-size="10" fill="var(--muted)"><text x="102" y="182" text-anchor="middle">formation</text><text x="239" y="182" text-anchor="middle">holding</text></g>
+                <text x="42" y="30" font-size="11" font-weight="600" style="fill:var(--ink)">Discrete: a few big jumps</text>
+              </svg>
+              <figcaption>Same trailing return, but the move fades after selection.</figcaption>
+            </figure>
+          </div>
+          <p style="font-size:13px;color:var(--muted)">Both stocks gain 30% over the formation window. Da, Gurun and Warachka find that momentum is stronger when that return arrives as frequent small moves than as a few large ones, so the strategy also filters on return smoothness. Paths are illustrative, not real data.</p>
           <h4>QuantConnect (QC)</h4>
           <img src="public/qc_intl_mom_vs_IMTM.png" alt="QuantConnect algo vs IMTM equity curve" style="width:925px;height:756px;">
           <table class="stats"><tbody>
-                <tr><th>Variable</th>        <th>IMTM</th><th class="pending">QuantConnect</th></tr>
-                <tr><td>Ann. Returns</td>    <td>-</td><td class="pending">-</td></tr>
-                <tr><td>Ann. Volatility</td> <td>-</td><td class="pending">-</td></tr>
-                <tr><td>Max DD</td>          <td>-</td><td class="pending">-</td></tr>
-                <tr><td>Sharpe ratio</td>    <td>-</td> <td class="pending">-</td></tr>
-                <tr><td>Sortino Ratio</td>   <td>-</td> <td class="pending">-</td></tr>
-                <tr><td>Turnover</td>        <td>-</td> <td class="pending">-</td></tr>
+                <tr><th>Variable</th>      <th>IMTM</th> <th class="pending">QuantConnect</th></tr>
+                <tr><td>CAGR</td>          <td>9.86</td> <td class="pending">12.5</td></tr>
+                <tr><td>Sharpe ratio</td>  <td>0.49</td> <td class="pending">0.4</td></tr>
+                <tr><td>Sortino Ratio</td> <td>0.67</td> <td class="pending">0.4</td></tr>
+                <tr><td>Max DD</td>        <td>32.6</td> <td class="pending">39.9</td></tr>
               </tbody></table>
         </div>
       </div>
